@@ -11,8 +11,10 @@ import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.runTest
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Response
 import okhttp3.ResponseBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.After
 import org.junit.Assert.*
 import org.junit.Before
@@ -52,7 +54,7 @@ class ProductRepositoryImplTest {
     fun `getProducts return error when api fails to returns the data`() =  runTest {
         val error =retrofit2.Response.error<List<ProductResponseDto>>(
             400,
-            ResponseBody.create(null, "No Response")
+            "No Response".toResponseBody("application/json".toMediaTypeOrNull())
         )
 
         coEvery {apiService.getProducts()} returns error
