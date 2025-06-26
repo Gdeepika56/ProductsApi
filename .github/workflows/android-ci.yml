@@ -1,4 +1,4 @@
-name: Products APK
+name: Generated Product APK
 
 env:
   # The name of the main module repository
@@ -13,7 +13,7 @@ on:
     branches:
       - 'master/**'
 
-  # Allows you to run this workflows manually from the Actions tab
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -43,8 +43,8 @@ jobs:
         run: chmod +x ./gradlew
 
       # Run Tests Build
-#      - name: Run gradle tests
-#        run: ./gradlew test
+      - name: Run gradle tests
+        run: ./gradlew test
 
       # Run Build Project
       - name: Build gradle project
@@ -78,6 +78,7 @@ jobs:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - APK(s) release generated
           path: ${{ env.main_project_module }}/build/outputs/apk/release/
 
+
       # Noted For Output [main_project_module]/build/outputs/bundle/release/
       - name: Upload AAB (App Bundle) Release - ${{ env.repository_name }}
         uses: actions/upload-artifact@v4
@@ -85,7 +86,7 @@ jobs:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
 
-      #Email Notification
+      #Email Notifications
       - name: Email APK
         uses: dawidd6/action-send-mail@v3
         with:
@@ -98,6 +99,6 @@ jobs:
             Hello,
 
             The latest APK has been built and is attached.
-          to: reddydeepiika@gmail.com
+          to: recipient@example.com
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: app/build/outputs/apk/release/app-release.apk
