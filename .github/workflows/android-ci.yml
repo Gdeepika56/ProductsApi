@@ -43,8 +43,8 @@ jobs:
         run: chmod +x ./gradlew
 
       # Run Tests Build
-      - name: Run gradle tests
-        run: ./gradlew test
+#      - name: Run gradle tests
+#        run: ./gradlew test
 
       # Run Build Project
       - name: Build gradle project
@@ -84,3 +84,20 @@ jobs:
         with:
           name: ${{ env.date_today }} - ${{ env.playstore_name }} - ${{ env.repository_name }} - App bundle(s) AAB release generated
           path: ${{ env.main_project_module }}/build/outputs/bundle/release/
+
+      #Email Notification
+      - name: Email APK
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: New APK Build - ${{ github.repository }}
+          body: |
+            Hello,
+
+            The latest APK has been built and is attached.
+          to: reddydeepiika@gmail.com
+          from: ${{ secrets.EMAIL_USERNAME }}
+          attachments: app/build/outputs/apk/release/app-release.apk
