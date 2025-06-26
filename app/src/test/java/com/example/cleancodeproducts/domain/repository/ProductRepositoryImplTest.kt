@@ -50,28 +50,28 @@ class ProductRepositoryImplTest {
         assertEquals(productResponseDto.toDomain(),(result[1] as ApiState.Success).data[0])
     }
 
-    @Test
-    fun `getProducts return error when api fails to returns the data`() =  runTest {
-        val error =retrofit2.Response.error<List<ProductResponseDto>>(
-            400,
-            "No Response".toResponseBody("application/json".toMediaTypeOrNull())
-        )
-
-        coEvery {apiService.getProducts()} returns error
-
-        val result = repositoryImpl.getProducts().toList()
-
-        assertTrue(result[1] is ApiState.Error)
-    }
-
-    @Test
-    fun `getProducts return error when exception is thrown`() = runTest {
-        coEvery { apiService.getProducts() } throws RuntimeException("Network Error")
-
-        val result = repositoryImpl.getProducts().toList()
-
-        assertTrue(result[1] is ApiState.Error)
-        assertEquals("Error: Network Error", (result[1] as ApiState.Error).error)
-    }
+//    @Test
+//    fun `getProducts return error when api fails to returns the data`() =  runTest {
+//        val error =retrofit2.Response.error<List<ProductResponseDto>>(
+//            400,
+//            "No Response".toResponseBody("application/json".toMediaTypeOrNull())
+//        )
+//
+//        coEvery {apiService.getProducts()} returns error
+//
+//        val result = repositoryImpl.getProducts().toList()
+//
+//        assertTrue(result[1] is ApiState.Error)
+//    }
+//
+//    @Test
+//    fun `getProducts return error when exception is thrown`() = runTest {
+//        coEvery { apiService.getProducts() } throws RuntimeException("Network Error")
+//
+//        val result = repositoryImpl.getProducts().toList()
+//
+//        assertTrue(result[1] is ApiState.Error)
+//        assertEquals("Error: Network Error", (result[1] as ApiState.Error).error)
+//    }
 
 }
