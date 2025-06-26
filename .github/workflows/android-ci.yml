@@ -99,6 +99,6 @@ jobs:
             Hello,
 
             The latest APK has been built and is attached.
-          to: recipient@example.com
+          to: deepiikareddy656@gmail.com
           from: ${{ secrets.EMAIL_USERNAME }}
           attachments: app/build/outputs/apk/release/app-release.apk
