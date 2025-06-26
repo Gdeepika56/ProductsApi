@@ -50,19 +50,26 @@ class ProductRepositoryImplTest {
 
     @Test
     fun `getProducts return error when api fails to returns the data`() =  runTest {
-        coEvery {apiService.getProducts()} returns retrofit2.Response.error(404, ResponseBody.create(null,""))
-        val result = repositoryImpl.getProducts().first()
+        val error =retrofit2.Response.error<List<ProductResponseDto>>(
+            400,
+            ResponseBody.create(null, "No Response")
+        )
 
-        assertTrue(result is ApiState.Error)
+        coEvery {apiService.getProducts()} returns error
+
+        val result = repositoryImpl.getProducts().toList()
+
+        assertTrue(result[1] is ApiState.Error)
     }
 
     @Test
     fun `getProducts return error when exception is thrown`() = runTest {
         coEvery { apiService.getProducts() } throws RuntimeException("Network Error")
 
-        val result = repositoryImpl.getProducts().first()
+        val result = repositoryImpl.getProducts().toList()
 
-        assertTrue(result is ApiState.Error)
+        assertTrue(result[1] is ApiState.Error)
+        assertEquals("Error: Network Error", (result[1] as ApiState.Error).error)
     }
 
 }
