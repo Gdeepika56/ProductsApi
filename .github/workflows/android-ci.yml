@@ -5,7 +5,7 @@ env:
   main_project_module: app
 
   # The name of the Play Store
-  playstore_name: testing_products
+  playstore_name: testing_store
 
 on:
 
